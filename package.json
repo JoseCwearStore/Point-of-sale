@@ -1,0 +1,10 @@
+{
+  "name": "punto-venta",
+  "version": "1.0.0",
+  "private":true,
+  "description": "Sistema de punto de venta, para aprendizage y portafolio. Con Docker, Prisma, Tailwind y arquitectura hexagonal.",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}
