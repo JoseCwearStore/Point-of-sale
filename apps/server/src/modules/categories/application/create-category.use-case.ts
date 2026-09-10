@@ -4,6 +4,7 @@
 import type { Category, NewCategory } from "../domain/category.entity"
 import { slugify } from "../domain/category.rules"
 import type { CategoryRepositoryPort } from "../ports/category-repository.port"
+import { ConflictError } from "../../../shared/errors";
 
 export class CreateCategoryUseCase {
     constructor(private readonly categories: CategoryRepositoryPort) { }
@@ -14,7 +15,7 @@ export class CreateCategoryUseCase {
 
         const existing = await this.categories.findBySlug(slug);
         if (existing) {
-            throw new Error(`Ya existe una categoria con el slug "${slug}".`);
+            throw new ConflictError(`Ya existe una categoria con el slug "${slug}".`);
         }
 
         return this.categories.create({ ...input, slug })

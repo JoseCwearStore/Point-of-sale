@@ -1,6 +1,6 @@
 // infrastructure/prisma/ — aquí, y solo aquí, este módulo sabe que existe Prisma/Postgres.
 import { PrismaClient, Category as PrismaCategory } from "@prisma/client";
-import { Category, CategoryToPersist } from "../../domain/category.entity";
+import { Category, CategoryToPersist, CategoryUpdate } from "../../domain/category.entity";
 import { CategoryRepositoryPort } from "../../ports/category-repository.port";
 
 function toDomain(row: PrismaCategory): Category {
@@ -30,11 +30,27 @@ export class PrismaCategoryRepository implements CategoryRepositoryPort {
         return row ? toDomain(row) : null;
     }
 
+    async findById(id: string): Promise<Category | null> {
+        const row = await this.prisma.category.findUnique({ where: { id } });
+        return row ? toDomain(row) : null;
+    }
+
     async list(): Promise<Category[]> {
         const rows = await this.prisma.category.findMany({
             orderBy: { createdAt: "desc" }
         });
 
         return rows.map(toDomain);
+    }
+
+    async update(id: string, data: CategoryUpdate): Promise<Category> {
+        const row = await this.prisma.category.update({
+            where: { id },
+            data: {
+                name: data.name,
+                slug: data.slug,
+            },
+        });
+        return toDomain(row);
     }
 }
