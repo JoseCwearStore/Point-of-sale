@@ -53,4 +53,11 @@ export class PrismaCategoryRepository implements CategoryRepositoryPort {
         });
         return toDomain(row);
     }
+
+    async delete(id: string): Promise<Category> {
+        const row = await this.prisma.category.delete({
+            where: { id }
+        });
+        return toDomain(row);
+    }
 }

@@ -9,5 +9,6 @@ export interface CategoryRepositoryPort {
     findBySlug(slug: string): Promise<Category | null>;
     findById(id: string): Promise<Category | null>;
     list(): Promise<Category[]>;
+    delete(id: string): Promise<Category>;
 }
 

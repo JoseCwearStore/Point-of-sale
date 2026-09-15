@@ -5,6 +5,7 @@ import { PrismaCategoryRepository } from "../prisma/category.repository";
 import { CreateCategoryUseCase } from "../../application/create-category.use-case";
 import { ListCategoriesUseCase } from "../../application/list-categories.use-case";
 import { UpdateCategoryUseCase } from "../../application/update-category.use-case";
+import { DeleteCategoryUseCase } from "../../application/delete-category.use-case";
 import { CategoryController } from "./category.controller";
 
 const prisma = new PrismaClient();
@@ -13,11 +14,18 @@ const categoryRepository = new PrismaCategoryRepository(prisma);
 const createCategoryUseCase = new CreateCategoryUseCase(categoryRepository);
 const listCategoryUseCase = new ListCategoriesUseCase(categoryRepository)
 const updateCategoryUseCase = new UpdateCategoryUseCase(categoryRepository)
+const deleteCategoryUseCase = new DeleteCategoryUseCase(categoryRepository)
 
-const controller = new CategoryController(createCategoryUseCase, listCategoryUseCase, updateCategoryUseCase);
+const controller = new CategoryController(
+    createCategoryUseCase,
+    listCategoryUseCase,
+    updateCategoryUseCase,
+    deleteCategoryUseCase
+);
 
 export const categoryRoutes = Router();
 
 categoryRoutes.post("/", controller.create)
 categoryRoutes.get("/", controller.list)
 categoryRoutes.put("/:id", controller.update)
+categoryRoutes.delete("/:id", controller.delete)
