@@ -1,11 +1,7 @@
+import { CategoriesPage } from "./features/categories/CategoriesPage";
+
 function App() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-100">
-      <h1 className="text-4xl font-bold text-purple-600">
-        Punto de Venta
-      </h1>
-    </div>
-  )
+  return <CategoriesPage />;
 }
 
-export default App
+export default App;
