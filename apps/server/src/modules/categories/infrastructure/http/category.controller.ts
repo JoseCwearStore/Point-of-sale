@@ -86,7 +86,7 @@ export class CategoryController {
 
         } catch (error) {
             if (error instanceof NotFoundError) {
-                res.status(400).json({ error: error.message });
+                res.status(404).json({ error: error.message });
                 return;
             }
             throw error;
