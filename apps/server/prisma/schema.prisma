@@ -24,3 +24,13 @@ model Unit {
 
     @@map("units")
 }
+
+model Branch {
+    id        String   @id @default(uuid())
+    name      String
+    address   String
+    phone     String
+    createdAt DateTime @default(now()) @map("created_at")
+
+    @@map("branches")
+}
