@@ -4,6 +4,7 @@ import type { Category, CategoryUpdate } from "../domain/category.entity";
 import type { CategoryRepositoryPort } from "../ports/category-repository.port";
 import { slugify } from "../domain/category.rules";
 import { NotFoundError, ConflictError } from "../../../shared/errors";
+import { assertValidName } from "../../../shared/validators";
 
 export class UpdateCategoryUseCase {
     constructor(private readonly categories: CategoryRepositoryPort) { }
@@ -12,6 +13,10 @@ export class UpdateCategoryUseCase {
         const existing = await this.categories.findById(id);
         if (!existing) {
             throw new NotFoundError("Categoría", id);
+        }
+
+        if (input.name !== undefined) {
+            assertValidName(input.name, "nombre de categoria");
         }
 
         const data: CategoryUpdate = { ...input };

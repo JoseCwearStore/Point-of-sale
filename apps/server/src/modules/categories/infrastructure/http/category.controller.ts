@@ -4,7 +4,7 @@ import { CreateCategoryUseCase } from "../../application/create-category.use-cas
 import { ListCategoriesUseCase } from "../../application/list-categories.use-case";
 import { UpdateCategoryUseCase } from "../../application/update-category.use-case";
 import { DeleteCategoryUseCase } from "../../application/delete-category.use-case";
-import { NotFoundError, ConflictError } from "../../../../shared/errors";
+import { NotFoundError, ConflictError, ValidationError } from "../../../../shared/errors";
 
 export class CategoryController {
     constructor(
@@ -32,6 +32,10 @@ export class CategoryController {
             }
             if (error instanceof ConflictError) {
                 res.status(409).json({ error: error.message });
+                return;
+            }
+            if (error instanceof ValidationError) {
+                res.status(400).json({ error: error.message });
                 return;
             }
             throw error;
@@ -67,6 +71,10 @@ export class CategoryController {
             }
             if (error instanceof ConflictError) {
                 res.status(409).json({ error: error.message });
+                return;
+            }
+            if (error instanceof ValidationError) {
+                res.status(400).json({ error: error.message });
                 return;
             }
             throw error;

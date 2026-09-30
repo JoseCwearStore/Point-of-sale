@@ -6,6 +6,7 @@ export function UnitsPage() {
     error,
     units,
     editingId,
+    formError,
     createMutation,
     deleteMutation,
     updateMutation,
@@ -30,6 +31,9 @@ export function UnitsPage() {
   return (
     <div className="mx-auto max-w-xl p-6">
       <h1 className="mb-4 text-2xl font-bold text-slate-800">Unidades</h1>
+
+      {formError && <p className="mb-2 text-sm text-red-600">{formError}</p>}
+
       <form onSubmit={handleCreate} className="mb-6 flex gap-2">
         <input
           type="text"

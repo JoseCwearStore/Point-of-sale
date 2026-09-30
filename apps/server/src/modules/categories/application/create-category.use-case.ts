@@ -5,11 +5,14 @@ import type { Category, NewCategory } from "../domain/category.entity"
 import { slugify } from "../domain/category.rules"
 import type { CategoryRepositoryPort } from "../ports/category-repository.port"
 import { ConflictError } from "../../../shared/errors";
+import { assertValidName } from "../../../shared/validators";
 
 export class CreateCategoryUseCase {
     constructor(private readonly categories: CategoryRepositoryPort) { }
 
     async execute(input: NewCategory): Promise<Category> {
+
+        assertValidName(input.name, "nombre de categoria");
 
         const slug = input.slug?.trim() ? slugify(input.slug) : slugify(input.name);
 

@@ -3,7 +3,7 @@ import { CreateBranchUseCase } from "../../application/create-branch.use-case";
 import { ListBranchesUseCase } from "../../application/list-branch.use-case";
 import { UpdateBranchUseCase } from "../../application/update-branch.use-case";
 import { DeleteBranchUseCase } from "../../application/delete-branch.use-case";
-import { NotFoundError, ConflictError } from "../../../../shared/errors";
+import { NotFoundError, ConflictError, ValidationError } from "../../../../shared/errors";
 
 export class BranchController {
     constructor(
@@ -39,6 +39,10 @@ export class BranchController {
             }
             if (error instanceof ConflictError) {
                 res.status(409).json({ error: error.message });
+                return;
+            }
+            if (error instanceof ValidationError) {
+                res.status(400).json({ error: error.message });
                 return;
             }
             throw error;
@@ -81,6 +85,10 @@ export class BranchController {
             }
             if (error instanceof ConflictError) {
                 res.status(409).json({ error: error.message });
+                return;
+            }
+            if (error instanceof ValidationError) {
+                res.status(400).json({ error: error.message });
                 return;
             }
             throw error;

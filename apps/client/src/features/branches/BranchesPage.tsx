@@ -6,6 +6,7 @@ export function BranchesPage() {
     error,
     branches,
     editingId,
+    formError,
     createMutation,
     updateMutation,
     deleteMutation,
@@ -34,6 +35,8 @@ export function BranchesPage() {
   return (
     <div className="mx-auto max-w-xl p-6">
       <h1 className="mb-4 text-2xl font-bold text-slate-800">Sucursales</h1>
+
+      {formError && <p className="mb-2 text-sm text-red-600">{formError}</p>}
 
       <form onSubmit={handleCreate} className="mb-6 flex gap-2">
         <input

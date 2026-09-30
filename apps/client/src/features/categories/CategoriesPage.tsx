@@ -6,6 +6,7 @@ import {
   useDeleteCategoryMutation,
   useUpdateCategoryMutation,
 } from "./categories.queries";
+import { getNameError } from "../../shared/validators";
 
 export function CategoriesPage() {
   const { data: categories, isLoading, error } = useCategoriesQuery();
@@ -16,10 +17,17 @@ export function CategoriesPage() {
   const [name, setName] = useState<string>("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editName, setEditName] = useState<string>("");
+  const [formError, setFormError] = useState<string | null>(null);
 
   function handleCreate(e: React.FormEvent) {
     e.preventDefault();
-    if (!name.trim()) return;
+
+    const nameError = getNameError(name);
+    if (nameError) {
+      setFormError(nameError);
+      return;
+    }
+    setFormError(null);
 
     createMutation.mutate(
       { name },
@@ -41,10 +49,16 @@ export function CategoriesPage() {
   function cancelEdit() {
     setEditingId(null);
     setEditName("");
+    setFormError(null);
   }
 
   function handleUpdate(id: string) {
-    if (!editName.trim()) return;
+    const nameError = getNameError(editName);
+    if (nameError) {
+      setFormError(nameError);
+      return;
+    }
+    setFormError(null);
 
     updateMutation.mutate(
       { id, input: { name: editName } },
@@ -60,6 +74,9 @@ export function CategoriesPage() {
   return (
     <div className="mx-auto max-w-xl p-6">
       <h1 className="mb-4 text-2xl font-bold text-slate-800">Categorias</h1>
+
+      {formError && <p className="mb-2 text-sm text-red-600">{formError}</p>}
+
       <form onSubmit={handleCreate} className="mb-6 flex gap-2">
         <input
           type="text"

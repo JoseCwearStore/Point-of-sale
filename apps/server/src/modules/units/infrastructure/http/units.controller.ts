@@ -3,7 +3,7 @@ import { CreateUnitUseCase } from "../../application/create-unit.use-case";
 import { DeleteUnitUseCase } from "../../application/delete-unit.use-case";
 import { ListUnitsUseCase } from "../../application/list-unit.use-case";
 import { UpdateUnitUseCase } from "../../application/update-unit.use-case";
-import { ConflictError, NotFoundError } from "../../../../shared/errors";
+import { ConflictError, NotFoundError, ValidationError } from "../../../../shared/errors";
 
 export class UnitController {
     constructor(
@@ -33,6 +33,10 @@ export class UnitController {
             }
             if (error instanceof ConflictError) {
                 res.status(409).json({ error: error.message });
+                return;
+            }
+            if (error instanceof ValidationError) {
+                res.status(400).json({ error: error.message });
                 return;
             }
             throw error;
@@ -74,6 +78,10 @@ export class UnitController {
             }
             if (error instanceof ConflictError) {
                 res.status(409).json({ error: error.message });
+                return;
+            }
+            if (error instanceof ValidationError) {
+                res.status(400).json({ error: error.message });
                 return;
             }
             throw error;
