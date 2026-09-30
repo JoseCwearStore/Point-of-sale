@@ -8,19 +8,21 @@ datasource db {
 }
 
 model Category {
-    id        String   @id @default(uuid())
+    id        String    @id @default(uuid())
     name      String
-    slug      String   @unique
-    createdAt DateTime @default(now()) @map("created_at")
+    slug      String    @unique
+    createdAt DateTime  @default(now()) @map("created_at")
+    products  Product[]
 
     @@map("categories")
 }
 
 model Unit {
-    id           String   @id @default(uuid())
+    id           String    @id @default(uuid())
     name         String
     abbreviation String
-    createdAt    DateTime @default(now()) @map("created_at")
+    createdAt    DateTime  @default(now()) @map("created_at")
+    products     Product[]
 
     @@map("units")
 }
@@ -33,4 +35,19 @@ model Branch {
     createdAt DateTime @default(now()) @map("created_at")
 
     @@map("branches")
+}
+
+model Product {
+    id              String   @id @default(uuid())
+    name            String
+    categoryId      String
+    category        Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+    unitId          String
+    unit            Unit     @relation(fields: [unitId], references: [id], onDelete: Restrict)
+    hasTax          Boolean  @default(true)
+    priceWithoutTax Decimal  @db.Decimal(10, 2)
+    imageUrl        String?
+    createdAt       DateTime @default(now()) @map("created_at")
+
+    @@map("products")
 }
