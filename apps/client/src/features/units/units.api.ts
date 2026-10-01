@@ -19,7 +19,7 @@ export async function createUnit(input: NewUnitInput): Promise<Unit> {
 
     if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message ?? "Error al crear la unidad");
+        throw new Error(error.error ?? "Error al crear la unidad");
     }
 
     return response.json();
@@ -34,7 +34,7 @@ export async function updateUnit(id: string, input: UnitUpdateInput): Promise<Un
 
     if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message ?? "Error al actualizar la unidad");
+        throw new Error(error.error ?? "Error al actualizar la unidad");
     }
     return response.json();
 }
@@ -46,6 +46,6 @@ export async function deleteUnit(id: string): Promise<void> {
 
     if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message ?? "Error al eliminar la unidad");
+        throw new Error(error.error ?? "Error al eliminar la unidad");
     }
 }

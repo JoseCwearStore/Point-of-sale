@@ -51,6 +51,7 @@ export const useUnits = () => {
                     setName("")
                     setAbbreviation("")
                 },
+                onError: (error) => setFormError(error.message),
             },
         );
     }
@@ -84,6 +85,7 @@ export const useUnits = () => {
             { id, input: { name: editName, abbreviation: editAbbreviation } },
             {
                 onSuccess: () => setEditingId(null),
+                onError: (error) => setFormError(error.message),
             },
         );
     }

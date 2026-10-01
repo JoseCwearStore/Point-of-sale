@@ -19,7 +19,7 @@ export async function createBranch(input: NewBranchInput): Promise<Branch> {
 
     if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message ?? "Error al crear la sucursal");
+        throw new Error(error.error ?? "Error al crear la sucursal");
     }
     return response.json();
 }
@@ -33,7 +33,7 @@ export async function updateBranch(id: string, input: BranchUpdateInput): Promis
 
     if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message ?? "Error al actualizar la sucursal");
+        throw new Error(error.error ?? "Error al actualizar la sucursal");
     }
     return response.json();
 }
@@ -45,6 +45,6 @@ export async function deleteBranch(id: string): Promise<void> {
 
     if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message ?? "Error al eliminar la sucursal");
+        throw new Error(error.error ?? "Error al eliminar la sucursal");
     }
 }

@@ -58,6 +58,7 @@ export function useBranches() {
                     setAddress("");
                     setPhone("");
                 },
+                onError: (error) => setFormError(error.message),
             },
         );
     }
@@ -98,6 +99,7 @@ export function useBranches() {
             { id, input: { name: editName, address: editAddress, phone: editPhone } },
             {
                 onSuccess: () => setEditingId(null),
+                onError: (error) => setFormError(error.message),
             },
         );
     }

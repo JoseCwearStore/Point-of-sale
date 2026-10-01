@@ -21,7 +21,7 @@ export async function createCategory(input: NewCategoryInput): Promise<Category>
 
     if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message ?? "Error al crear la categoria");
+        throw new Error(error.error ?? "Error al crear la categoria");
     }
 
     return response.json();
@@ -36,7 +36,7 @@ export async function updateCategory(id: string, input: CategoryUpdateInput): Pr
 
     if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message ?? "Error al actualizar la categoria");
+        throw new Error(error.error ?? "Error al actualizar la categoria");
     }
 
     return response.json();
@@ -49,6 +49,6 @@ export async function deleteCategory(id: string): Promise<void> {
 
     if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message ?? "Error al eliminar la categoria");
+        throw new Error(error.error ?? "Error al eliminar la categoria");
     }
 }

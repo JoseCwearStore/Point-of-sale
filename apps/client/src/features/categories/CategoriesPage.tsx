@@ -33,6 +33,7 @@ export function CategoriesPage() {
       { name },
       {
         onSuccess: () => setName(""),
+        onError: (error) => setFormError(error.message),
       },
     );
   }
@@ -64,6 +65,7 @@ export function CategoriesPage() {
       { id, input: { name: editName } },
       {
         onSuccess: () => setEditingId(null),
+        onError: (error) => setFormError(error.message),
       },
     );
   }
