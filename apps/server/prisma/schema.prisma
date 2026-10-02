@@ -33,21 +33,67 @@ model Branch {
     address   String
     phone     String
     createdAt DateTime @default(now()) @map("created_at")
+    sales     Sale[]
 
     @@map("branches")
 }
 
 model Product {
-    id              String   @id @default(uuid())
+    id              String     @id @default(uuid())
     name            String
     categoryId      String
-    category        Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+    category        Category   @relation(fields: [categoryId], references: [id], onDelete: Restrict)
     unitId          String
-    unit            Unit     @relation(fields: [unitId], references: [id], onDelete: Restrict)
-    hasTax          Boolean  @default(true)
-    priceWithoutTax Decimal  @db.Decimal(10, 2)
+    unit            Unit       @relation(fields: [unitId], references: [id], onDelete: Restrict)
+    hasTax          Boolean    @default(true)
+    priceWithoutTax Decimal    @db.Decimal(10, 2)
+    stock           Decimal    @db.Decimal(10, 3)
     imageUrl        String?
-    createdAt       DateTime @default(now()) @map("created_at")
+    createdAt       DateTime   @default(now()) @map("created_at")
+    saleItems       SaleItem[]
 
     @@map("products")
+}
+
+model Sale {
+    id        String        @id @default(uuid())
+    branchId  String
+    branch    Branch        @relation(fields: [branchId], references: [id], onDelete: Restrict)
+    status    String        @default("ACTIVA")
+    subtotal  Decimal       @db.Decimal(10, 2)
+    tax       Decimal       @db.Decimal(10, 2)
+    total     Decimal       @db.Decimal(10, 2)
+    createdAt DateTime      @default(now()) @map("created_at")
+    items     SaleItem[]
+    payments  SalePayment[]
+
+    @@map("sales")
+}
+
+model SaleItem {
+    id                  String   @id @default(uuid())
+    saleId              String
+    sale                Sale     @relation(fields: [saleId], references: [id], onDelete: Cascade)
+    productId           String
+    product             Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
+    quantity            Decimal  @db.Decimal(10, 3)
+    unitPriceWithoutTax Decimal  @db.Decimal(10, 2)
+    hasTax              Boolean
+    unitPriceWithTax    Decimal  @db.Decimal(10, 2)
+    lineTotal           Decimal  @db.Decimal(10, 2)
+    createdAt           DateTime @default(now()) @map("created_at")
+
+    @@map("sale_items")
+}
+
+model SalePayment {
+    id             String   @id @default(uuid())
+    saleId         String
+    sale           Sale     @relation(fields: [saleId], references: [id], onDelete: Cascade)
+    method         String
+    amount         Decimal  @db.Decimal(10, 2)
+    amountReceived Decimal? @db.Decimal(10, 2)
+    createdAt      DateTime @default(now()) @map("created_at")
+
+    @@map("sale_payments")
 }

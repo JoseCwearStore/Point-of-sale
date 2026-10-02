@@ -13,6 +13,7 @@ function toDomain(row: PrismaProduct): Product {
         // row.priceWithoutTax es un Decimal (decimal.js), no un number de JS.
         // Hay que convertirlo explícito, si no el dominio recibe un objeto raro.
         priceWithoutTax: Number(row.priceWithoutTax),
+        stock: Number(row.stock),
         imageUrl: row.imageUrl,
         createdAt: row.createdAt,
     };
@@ -28,6 +29,7 @@ export class PrismaProductRepository implements ProductRepositoryPort {
                 categoryId: data.categoryId,
                 unitId: data.unitId,
                 hasTax: data.hasTax,
+                stock: data.stock,
                 priceWithoutTax: data.priceWithoutTax,
                 imageUrl: data.imageUrl,
             }
@@ -69,6 +71,7 @@ export class PrismaProductRepository implements ProductRepositoryPort {
                 categoryId: data.categoryId,
                 unitId: data.unitId,
                 hasTax: data.hasTax,
+                stock: data.stock,
                 priceWithoutTax: data.priceWithoutTax,
                 imageUrl: data.imageUrl,
             },

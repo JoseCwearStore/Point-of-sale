@@ -6,6 +6,7 @@ export interface Product {
     hasTax: boolean;
     priceWithoutTax: number;
     imageUrl: string | null;
+    stock: number;
     createdAt: Date;
 }
 
@@ -13,7 +14,7 @@ export interface Product {
 // y solo se agrega a lo que la API devuelve, igual que el slug de Category.
 export type ProductWithComputedFields = Product & { priceWithTax: number };
 
-export type NewProduct = Pick<Product, "name" | "categoryId" | "unitId" | "hasTax" | "priceWithoutTax"> &
+export type NewProduct = Pick<Product, "name" | "categoryId" | "unitId" | "hasTax" | "priceWithoutTax" | "stock"> &
     Partial<Pick<Product, "imageUrl">>;
 
-export type ProductUpdate = Partial<Pick<Product, "name" | "categoryId" | "unitId" | "hasTax" | "priceWithoutTax" | "imageUrl">>;
+export type ProductUpdate = Partial<Pick<Product, "name" | "categoryId" | "unitId" | "hasTax" | "priceWithoutTax" | "imageUrl" | "stock">>;
