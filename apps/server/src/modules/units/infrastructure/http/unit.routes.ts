@@ -5,13 +5,15 @@ import { ListUnitsUseCase } from "../../application/list-unit.use-case";
 import { UpdateUnitUseCase } from "../../application/update-unit.use-case";
 import { DeleteUnitUseCase } from "../../application/delete-unit.use-case";
 import { UnitController } from "./units.controller";
+import { PrismaProductRepository } from "../../../products/infrastructure/prisma/product.repository";
 import { prisma } from "../../../../shared/prisma"
 
 const unitRepository = new PrismaUnitRepository(prisma);
+const productRepository = new PrismaProductRepository(prisma);
 const createUnitUseCase = new CreateUnitUseCase(unitRepository);
 const listUnitUseCase = new ListUnitsUseCase(unitRepository);
 const updateUnitUseCase = new UpdateUnitUseCase(unitRepository);
-const deleteUnitUseCase = new DeleteUnitUseCase(unitRepository);
+const deleteUnitUseCase = new DeleteUnitUseCase(unitRepository, productRepository);
 
 const controller = new UnitController(
     createUnitUseCase,

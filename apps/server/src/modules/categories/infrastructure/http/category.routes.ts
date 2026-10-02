@@ -6,13 +6,15 @@ import { ListCategoriesUseCase } from "../../application/list-categories.use-cas
 import { UpdateCategoryUseCase } from "../../application/update-category.use-case";
 import { DeleteCategoryUseCase } from "../../application/delete-category.use-case";
 import { CategoryController } from "./category.controller";
+import { PrismaProductRepository } from "../../../products/infrastructure/prisma/product.repository";
 import { prisma } from "../../../../shared/prisma"
 
 const categoryRepository = new PrismaCategoryRepository(prisma);
+const productRepository = new PrismaProductRepository(prisma);
 const createCategoryUseCase = new CreateCategoryUseCase(categoryRepository);
 const listCategoryUseCase = new ListCategoriesUseCase(categoryRepository)
 const updateCategoryUseCase = new UpdateCategoryUseCase(categoryRepository)
-const deleteCategoryUseCase = new DeleteCategoryUseCase(categoryRepository)
+const deleteCategoryUseCase = new DeleteCategoryUseCase(categoryRepository, productRepository)
 
 const controller = new CategoryController(
     createCategoryUseCase,

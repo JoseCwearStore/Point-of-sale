@@ -104,6 +104,10 @@ export class UnitController {
                 res.status(404).json({ error: error.message });
                 return;
             }
+            if (error instanceof ConflictError) {
+                res.status(409).json({ error: error.message });
+                return;
+            }
             throw error;
         }
     }
